@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   H1,
@@ -19,11 +19,35 @@ import { Feather } from '@expo/vector-icons';
 import { KeyboardAvoidingView } from "react-native";
 import CustomHeader from "../components/customHeader";
 import CustomModal from "../components/customModal";
+import { useNavigation } from "expo-router";
 
 
 
 export default function index() {
     const [rating, setRating] = useState(0);
+
+    const [showMicButton, setShowMicButton] = useState(true);
+
+    useEffect(() => {
+      const keyboardDidShowListener = Keyboard.addListener(
+        Platform.OS === "android" ? "keyboardDidShow" : "keyboardWillShow",
+        () => {
+          setShowMicButton(false); // Hide the mic button when keyboard shows
+        }
+      );
+  
+      const keyboardDidHideListener = Keyboard.addListener(
+        Platform.OS === "android" ? "keyboardDidHide" : "keyboardWillHide",
+        () => {
+          setShowMicButton(true); // Show the mic button when keyboard hides
+        }
+      );
+  
+      return () => {
+        keyboardDidShowListener.remove();
+        keyboardDidHideListener.remove();
+      };
+    }, []);
     const comment=[
         {
           name: 'Sara Williams',
@@ -44,6 +68,7 @@ export default function index() {
       ]
 
       const renderItem = ({item}) => (
+       
         <View style={styles.commentContainer}>
           <YStack>
             <XStack alignItems="center" space={10}>
@@ -63,7 +88,7 @@ export default function index() {
           </YStack>
         </View>
       );
-
+      console.log("type of item in comment:", typeof(item));
       const handleRightPress = () => {
         // Show modal on right button press
         setModalVisible(true);
@@ -73,6 +98,7 @@ export default function index() {
         setModalVisible(false);
       };
       const [modalVisible, setModalVisible] = useState(false);
+      const navigation =useNavigation();
 
   return (
     // <BaseLayout > 
@@ -130,6 +156,8 @@ export default function index() {
             <CustomHeader
         title="Comments"
         onRightPress={handleRightPress}
+        showBackButton={true}
+        navigation={navigation}
       />
          <CustomModal modalVisible={modalVisible} closeModal={closeModal} />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -144,7 +172,7 @@ export default function index() {
     
     
       <YStack padding={0} marginTop={10} >
-        <XStack space={5}>
+        <XStack space={5} paddingBottom={20}>
       <Input
       height={60}
       width={320}
@@ -157,7 +185,7 @@ export default function index() {
       letterSpacing={0.5}
       padding={10}
       />
-      <Button
+      {/* <Button
        height={60}
        width={45}
        backgroundColor={'#FFFFFF'}
@@ -166,7 +194,30 @@ export default function index() {
        
        >
         <Feather name="mic" size={24} color="#D7684D" />
-      </Button>
+      </Button> */}
+      {showMicButton ? (
+              <Button
+                height={60}
+                width={45}
+                backgroundColor={'#FFFFFF'}
+                borderRadius={20}
+                padding={0}
+              >
+                <Feather name="mic" size={24} color="#D7684D" />
+              </Button>
+            ) : (
+              <Button
+                height={50}
+                width={50}
+                backgroundColor={'#D7684D'}
+                borderRadius={50}
+                padding={0}
+                justifyContent={'center'}
+                alignItems={'center'}
+              >
+                <Feather name="send" size={24} color="#FFFFFF" style={styles.rotatedIcon} />
+              </Button>
+            )}
       </XStack>
       </YStack>
         </View>
@@ -186,6 +237,9 @@ const styles=StyleSheet.create({
         padding: 10,
         flex: 1,
         
+      },
+      rotatedIcon: {
+        transform: [{ rotate: '45deg' }], // Rotate the icon by 45 degrees (adjust as needed)
       },
 commentContainer: {
     padding: 16,

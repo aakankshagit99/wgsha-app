@@ -6,7 +6,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import CustomHeader from "../../../components/customHeader";
 import CustomModal from "../../../components/customModal";
 
-const Session = ({navigation}) => {
+const Session = () => {
   const [coursesData, setCoursesData] = useState([
     {
       key: 1,
@@ -79,7 +79,7 @@ const Session = ({navigation}) => {
   };
 
 
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const renderItem = ({ item }) => (
     <Link asChild href={{ pathname: `(tabs)/mycourses/${item.key}`, params: { name: item.sessionName, title:title, sessionDescription: item.sessionDescription , sessionNumber: item.key } }}>

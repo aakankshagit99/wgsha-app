@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { H1, Avatar, XStack, YStack, Text, Circle, View, Button,Switch, Label, Separator,H2 ,Input, ScrollView } from 'tamagui'
 import { PenLine } from '@tamagui/lucide-icons'
 import { SafeAreaView, StyleSheet } from 'react-native'
-import { Link } from 'expo-router'
+import { Link, useNavigation } from 'expo-router'
 import { AntDesign } from '@expo/vector-icons';
 
 import { RadioGroup } from 'tamagui'
@@ -20,11 +20,14 @@ export default function index() {
     setModalVisible(false);
   };
   const [modalVisible, setModalVisible] = useState(false);
+  const navigation =useNavigation();
   return (
     <SafeAreaView style={{height:'100%',backgroundColor:'#ffffff'}}>
       <CustomHeader
         title="Profile"
         onRightPress={handleRightPress}
+        showBackButton={false}
+        navigation={navigation}
       />
          <CustomModal modalVisible={modalVisible} closeModal={closeModal} />
       <YStack paddingTop={30} backgroundColor={'#ffffff'}>

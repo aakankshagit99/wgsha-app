@@ -80,7 +80,7 @@ export default function index() {
       <CustomHeader
         title="My courses"
         onRightPress={handleRightPress}
-        showBackButton={true}
+        showBackButton={false}
         navigation={navigation}
       />
          <CustomModal modalVisible={modalVisible} closeModal={closeModal} />
@@ -127,7 +127,7 @@ export default function index() {
     <YStack alignItems='center' >
     <ScrollView >
    {data.map((item, index) => (
-        <CarouselCardItem key={index} data={item} />
+        <CarouselCardItem key={index} data={item} index={undefined} />
       ))}
       </ScrollView>
       </YStack>

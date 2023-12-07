@@ -15,7 +15,7 @@ import {
 // import BaseLayout from "../components/layouts/base-layout";
 import BaseLayout from "../components/layouts/base-layout";
 import { Apple } from "@tamagui/lucide-icons";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { StyleSheet} from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -55,7 +55,7 @@ export default function index() {
         enableSwiping={false}
         enableHalfStar={false}
         color={'#D7684D'}
-        alignSelf="center"
+        
       />
        </XStack>
        <Input
@@ -75,7 +75,9 @@ export default function index() {
         backgroundColor={"$primary"}
         marginTop="$1"
         width={"100%"}
-        borderRadius={50}>
+        borderRadius={50}
+        onPress={()=> router.push('(tabs)/feed')}
+        >
         <Text fontSize={18} fontWeight={'700'} color={'white'}>Submit feedback</Text>
        </Button>
         </YStack>

@@ -95,7 +95,7 @@ export default function index() {
       <YStack>
         <ScrollView>
         <CustomHeader
-        title="Feed"
+        title="Home/Feed"
         onRightPress={handleRightPress}
         showBackButton={false}
         navigation={navigation}

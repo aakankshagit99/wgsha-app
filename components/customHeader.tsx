@@ -3,13 +3,25 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Button } from 'tamagui';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 const CustomHeader = ({ title,onRightPress,  showBackButton, navigation  }) => {
+
+  const handleCustomBackButton = () => {
+    if (showBackButton) {
+      // navigation.navigate('mycourses/session'); // Navigate to FeedScreen within the tab navigator
+      router.back();
+    } else {
+      // Your other logic if needed
+      navigation.goBack();
+    }
+  };
+
   const renderBackButton = () => {
     if (showBackButton) {
       return (
-        <TouchableOpacity style={styles.left} onPress={() => navigation.goBack()}>
-          <Ionicons name="chevron-back" size={24} color="#D7684D" />
+        <TouchableOpacity style={styles.left} onPress={()=> router.back()}>
+          <Ionicons name="chevron-back" size={24} color="#D7684D"/>
         </TouchableOpacity>
       );
     }
@@ -53,10 +65,7 @@ const styles = StyleSheet.create({
     borderBottomWidth:1,
     borderBottomColor:'#E1E1E1'
   },
-  left: {
-    flex: 1,
-    alignItems: 'flex-start',
-  },
+
   right: {
     flex: 1,
     alignItems: 'flex-end',

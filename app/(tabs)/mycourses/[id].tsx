@@ -1,4 +1,4 @@
-import { Link, useLocalSearchParams, useNavigation } from "expo-router";
+import { Link, router, useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
   Dimensions,
@@ -16,13 +16,12 @@ import {
   Button,
   XStack,
   RadioGroup,
+  YStack,
 } from "tamagui";
 import RNFS from "react-native-fs";
 // import Pdf from 'react-native-pdf';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Pdf from "react-native-pdf";
-
-// import test from '../../../assets/video/test-video.mp4'
 
 import { Video, ResizeMode } from "expo-av";
 import CustomHeader from "../../../components/customHeader";
@@ -39,7 +38,7 @@ const SessionDetails = () => {
   const sessionNumber1 = parseInt(sessionNumber || "1", 10);
   console.log("num", sessionNumber1);
   const navigation = useNavigation();
-  const currentSessionNumber = parseInt(sessionNumber1 || "0", 10);
+  const currentSessionNumber = parseInt(sessionNumber1 || '0' , 10);
   const nextSessionNumber = currentSessionNumber + 1;
   console.log("nextSessionNumber", { nextSessionNumber });
 
@@ -106,7 +105,8 @@ const SessionDetails = () => {
   // Function to navigate to the details of the next session
   const goToNextSession = () => {
     const nextSessionNumber = currentSessionNumber + 1;
-    navigation.navigate(`(tabs)/mycourses/${nextSessionNumber}`); // Update the route based on your setup
+    // navigation.navigate(`(tabs)/mycourses/${nextSessionNumber}`); // Update the route based on your setup
+    router.push(`(tabs)/mycourses/${nextSessionNumber}`);
     console.log("hello");
   };
 
@@ -115,7 +115,6 @@ const SessionDetails = () => {
       description:
         "Lorem ipsum dolor sit amet consectetur. Proin mattis fringilla et mineque amet venenatis sagittis eget. Massa semper morbi cras ultrices ornare massa ullamcorper. Neque diam est leo vestibulum semper dui.",
       imageURL: require("../../../assets/images/image.png"),
-      name: require("../../../assets/video/test-video.mp4"),
       //'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
     },
   ];
@@ -164,14 +163,14 @@ const SessionDetails = () => {
     question3: '',
     // Add more keys for each question as needed
   });
-  const handleValueChange = (question, value) => {
+  const handleValueChange = (question : string, value: string) => {
     setSelectedOptions({
       ...selectedOptions,
       [question]: value,
     });
   };
   return (
-    <SafeAreaView style={{ height: "100%", padding: 10 }}>
+    <SafeAreaView style={{ height: "100%", paddingBottom: 30,marginBottom:200 }}>
       <CustomHeader
         title="Name of the course"
         onRightPress={handleRightPress}
@@ -181,7 +180,7 @@ const SessionDetails = () => {
       <CustomModal modalVisible={modalVisible} closeModal={closeModal} />
 
       <ScrollView
-        style={{ height: "100%", padding: 10, backgroundColor: "white" }}
+        style={{ height: "100%", padding: 20, backgroundColor: "white" ,}}
       >
         <View style={styles.container}>
           {isLastSession ? (
@@ -194,6 +193,7 @@ const SessionDetails = () => {
               <Text fontSize={17} fontWeight={"700"} marginTop={10}>
                 {sessionDescription}
               </Text>
+              <YStack paddingBottom={20}>
               <Text fontSize={16} fontWeight={"600"} marginTop={10}>
                 Question 1
               </Text>
@@ -201,42 +201,102 @@ const SessionDetails = () => {
                 Q. Lorem ipsum dolor sit amet consectetur. Vestibulum sit donec
                 ut dictumst aenean feugiat feugiat sem.
               </Text>
-              <RadioGroup value="foo" size="$4" space="$2" 
+              <RadioGroup value="foo" size={4} space="$2" 
               value={selectedOptions.question1}
               onValueChange={(value) => handleValueChange('question1', value)}>
                 <XStack space={10} alignContent="center" marginTop={10}>
-                  <RadioGroup.Item value="foo"  size={"$4"}>
-                    <RadioGroup.Indicator />
+                  <RadioGroup.Item value="1"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '1'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '1'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option A
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo"  size={"$4"}>
-                    <RadioGroup.Indicator borderColor={"$primary"} />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="2"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '2'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '2'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option B
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo"  size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="3"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '3'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '3'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option C
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center" >
-                  <RadioGroup.Item value="foo"  size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="4"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '4'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '4'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option D
                   </Text>
                 </XStack>
+                
+                
               </RadioGroup>
+              </YStack>
+
+              <YStack paddingBottom={20}>
               <Text fontSize={16} fontWeight={"600"} marginTop={10}>
                 Question 2
               </Text>
@@ -244,40 +304,102 @@ const SessionDetails = () => {
                 Q. Lorem ipsum dolor sit amet consectetur. Vestibulum sit donec
                 ut dictumst aenean feugiat feugiat sem.
               </Text>
-              <RadioGroup value="foo" size="$4" space="$2">
+              <RadioGroup value="foo" size={4} space="$2" 
+              value={selectedOptions.question1}
+              onValueChange={(value) => handleValueChange('question1', value)}>
                 <XStack space={10} alignContent="center" marginTop={10}>
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+                  <RadioGroup.Item value="1"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '1'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '1'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option A
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator borderColor={"$primary"} />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="2"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '2'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '2'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option B
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="3"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '3'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '3'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option C
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center" >
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="4"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '4'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '4'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option D
                   </Text>
                 </XStack>
+                
+                
               </RadioGroup>
+              </YStack>
+
+              <YStack paddingBottom={20}>
               <Text fontSize={16} fontWeight={"600"} marginTop={10}>
                 Question 3
               </Text>
@@ -285,40 +407,102 @@ const SessionDetails = () => {
                 Q. Lorem ipsum dolor sit amet consectetur. Vestibulum sit donec
                 ut dictumst aenean feugiat feugiat sem.
               </Text>
-              <RadioGroup value="foo" size="$4" space="$2">
+              <RadioGroup value="foo" size={4} space="$2" 
+              value={selectedOptions.question1}
+              onValueChange={(value) => handleValueChange('question1', value)}>
                 <XStack space={10} alignContent="center" marginTop={10}>
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+                  <RadioGroup.Item value="1"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '1'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '1'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option A
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator borderColor={"$primary"} />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="2"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '2'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '2'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option B
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="3"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '3'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '3'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option C
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center" >
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="4"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '4'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '4'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option D
                   </Text>
                 </XStack>
+                
+                
               </RadioGroup>
+              </YStack>
+
+              <YStack paddingBottom={20}>
               <Text fontSize={16} fontWeight={"600"} marginTop={10}>
                 Question 4
               </Text>
@@ -326,40 +510,102 @@ const SessionDetails = () => {
                 Q. Lorem ipsum dolor sit amet consectetur. Vestibulum sit donec
                 ut dictumst aenean feugiat feugiat sem.
               </Text>
-              <RadioGroup value="foo" size="$4" space="$2">
+              <RadioGroup value="foo" size={4} space="$2" 
+              value={selectedOptions.question1}
+              onValueChange={(value) => handleValueChange('question1', value)}>
                 <XStack space={10} alignContent="center" marginTop={10}>
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+                  <RadioGroup.Item value="1"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '1'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '1'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option A
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator borderColor={"$primary"} />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="2"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '2'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '2'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option B
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="3"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '3'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '3'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option C
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center" >
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="4"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '4'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '4'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option D
                   </Text>
                 </XStack>
+                
+                
               </RadioGroup>
+              </YStack>
+
+              <YStack paddingBottom={20}>
               <Text fontSize={16} fontWeight={"600"} marginTop={10}>
                 Question 5
               </Text>
@@ -367,40 +613,102 @@ const SessionDetails = () => {
                 Q. Lorem ipsum dolor sit amet consectetur. Vestibulum sit donec
                 ut dictumst aenean feugiat feugiat sem.
               </Text>
-              <RadioGroup value="foo" size="$4" space="$2">
+              <RadioGroup value="foo" size={4} space="$2" 
+              value={selectedOptions.question1}
+              onValueChange={(value) => handleValueChange('question1', value)}>
                 <XStack space={10} alignContent="center" marginTop={10}>
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+                  <RadioGroup.Item value="1"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '1'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '1'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option A
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator borderColor={"$primary"} />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="2"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '2'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '2'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option B
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="3"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '3'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '3'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option C
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center" >
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"} >
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="4"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '4'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '4'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option D
                   </Text>
                 </XStack>
+                
+                
               </RadioGroup>
+              </YStack>
+
+              <YStack paddingBottom={20}>
               <Text fontSize={16} fontWeight={"600"} marginTop={10}>
                 Question 6
               </Text>
@@ -408,40 +716,100 @@ const SessionDetails = () => {
                 Q. Lorem ipsum dolor sit amet consectetur. Vestibulum sit donec
                 ut dictumst aenean feugiat feugiat sem.
               </Text>
-              <RadioGroup value="foo" size="$4" space="$2">
+              <RadioGroup value="foo" size={4} space="$2" 
+              value={selectedOptions.question1}
+              onValueChange={(value) => handleValueChange('question1', value)}>
                 <XStack space={10} alignContent="center" marginTop={10}>
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+                  <RadioGroup.Item value="1"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '1'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '1'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option A
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator borderColor={"$primary"} />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="2"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '2'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '2'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option B
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center">
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="3"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '3'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '3'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option C
                   </Text>
                 </XStack>
-                <XStack space={10} alignContent="center" >
-                  <RadioGroup.Item value="foo" id="foo-radio-item" size={"$4"}>
-                    <RadioGroup.Indicator />
+
+                <XStack space={10} alignContent="center" marginTop={10}>
+                  <RadioGroup.Item value="4"  size={"$4"}>
+                    <RadioGroup.Indicator   style={
+                  selectedOptions.question1 === '4'
+                    ? { backgroundColor: '#D7684D' }
+                    : null
+                } />
                   </RadioGroup.Item>
-                  <Text fontSize={16} fontWeight={"600"} marginTop={2}>
+                  <Text fontSize={16} fontWeight={"600"} marginTop={2}
+                   fontSize={16}
+                   fontWeight={"600"}
+                   marginTop={2}
+                   style={
+                     selectedOptions.question1 === '4'
+                       ? { color: '#D7684D' }
+                       : { color: 'black' }
+                   }
+                  >
                     Option D
                   </Text>
                 </XStack>
+                
+                
               </RadioGroup>
+              </YStack>
               <Link
                 asChild
               
@@ -468,7 +836,7 @@ const SessionDetails = () => {
               </Link>
             </View>
           ) : (
-            <View>
+            <View paddingBottom={30}>
               <Text fontSize={14} fontWeight={"700"}>
                 Session: {sessionNumber1}
               </Text>
@@ -540,7 +908,6 @@ const SessionDetails = () => {
 
               <Link
                 asChild
-                Replace
                 href={
                   isLastSession
                     ? "/completion"
@@ -549,9 +916,7 @@ const SessionDetails = () => {
                         params: { sessionNumber: nextSessionNumber },
                       }
                 }
-                transition="slide-down"
-                transitionDuration={500}
-                transitionTimingFunction="ease-in-out"
+               
               >
                 <Button
                   height={55}
@@ -584,7 +949,8 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: "white",
-    height:'100%'
+    height:'100%',
+    paddingBottom:20
   },
 
   completed: {
